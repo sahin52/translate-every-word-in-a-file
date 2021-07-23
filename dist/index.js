@@ -2,6 +2,8 @@
 exports.__esModule = true;
 var electron_1 = require("electron");
 var path = require("path");
+var electron_2 = require("electron");
+var os = require("os");
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
     electron_1.app.quit();
@@ -10,12 +12,39 @@ var createWindow = function () {
     // Create the browser window.
     var mainWindow = new electron_1.BrowserWindow({
         height: 600,
-        width: 800
+        width: 800,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false
+        }
     });
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, '../src/index.html'));
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
+    console.log("demene");
+    electron_2.ipcMain.on('open-file-dialog-for-file', function (event) {
+        if (os.platform() === 'linux' || os.platform() === 'win32') {
+            electron_1.dialog.showOpenDialog({
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                properties: ['openFile']
+            }, function (files) {
+                if (files)
+                    event.sender.send('selected-file', files[0]);
+            });
+        }
+        else {
+            electron_1.dialog.showOpenDialog({
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                properties: ['openFile', 'openDirectory']
+            }, function (files) {
+                if (files)
+                    event.sender.send('selected-file', files[0]);
+            });
+        }
+    });
 };
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -35,6 +64,9 @@ electron_1.app.on('activate', function () {
     if (electron_1.BrowserWindow.getAllWindows().length === 0) {
         createWindow();
     }
+});
+electron_2.ipcMain.on('close-main-window', function () {
+    electron_1.app.quit();
 });
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
