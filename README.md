@@ -8,3 +8,6 @@ Helps you learn language faster, saves you a lot of time.
 Special thanks to free translation api, libre translate https://translate.astian.org/ , contribute to them: https://github.com/LibreTranslate/LibreTranslate  
 
 Don't ask why this is written with Electron js, I just wanted to learn electron js desktop app development.
+
+### Attention
+It may have bugs and problems, use it with attention. 
