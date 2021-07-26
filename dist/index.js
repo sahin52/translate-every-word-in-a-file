@@ -15,7 +15,8 @@ var createWindow = function () {
         width: 800,
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false
+            contextIsolation: false,
+            enableRemoteModule: true
         }
     });
     // and load the index.html of the app.
@@ -24,6 +25,7 @@ var createWindow = function () {
     mainWindow.webContents.openDevTools();
     console.log("demene");
     electron_2.ipcMain.on('open-file-dialog-for-file', function (event) {
+        console.log("slm");
         if (os.platform() === 'linux' || os.platform() === 'win32') {
             electron_1.dialog.showOpenDialog({
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -20,7 +20,8 @@ const createWindow = (): void => {
       width: 800,
       webPreferences: {
         nodeIntegration: true,
-        contextIsolation: false
+        contextIsolation: false,
+        enableRemoteModule: true
       }
     });
 
@@ -31,6 +32,7 @@ const createWindow = (): void => {
     mainWindow.webContents.openDevTools();
     console.log("demene");
     ipcMain.on('open-file-dialog-for-file', (event) => {
+      console.log("slm");
         if (os.platform() === 'linux' || os.platform() === 'win32') {
           dialog.showOpenDialog({
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
