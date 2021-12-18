@@ -20,7 +20,7 @@ function hasSymbols(str:string){
 
 async function trans(text: string): Promise<any>{
     console.log("Beginning translation");
-    const res = await fetch("https://translate.astian.org/translate", {
+    const res = await fetch("https://trans.zillyhuhn.com/translate", {
         method: "POST",
         body: JSON.stringify({
             q: text,
